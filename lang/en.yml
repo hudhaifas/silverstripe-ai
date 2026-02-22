@@ -1,0 +1,57 @@
+en:
+  AgentWidget:
+    TITLE: 'AI Assistant'
+    TITLE_EXPANDED: 'Assistant — {name}'
+    PLACEHOLDER: 'Ask a question...'
+    SEND: 'Send'
+    EXPAND: 'Expand'
+    EMPTY_STATE: 'Ask me about {name}.'
+
+  AgentService:
+    # HTTP Error Messages
+    ERROR_BAD_REQUEST: 'Invalid request. Please check your input and try again.'
+    ERROR_UNAUTHORIZED: 'Authentication required. Please log in to continue.'
+    ERROR_CREDIT_LIMIT: 'Credit limit exceeded. Please purchase more credits to continue.'
+    ERROR_FORBIDDEN: 'You do not have permission to perform this action.'
+    ERROR_NOT_FOUND: 'The requested resource was not found.'
+    ERROR_GONE: 'This resource has expired. Please create a new request.'
+    ERROR_INTERNAL: 'An unexpected error occurred. Please try again.'
+    ERROR_SERVICE_UNAVAILABLE: 'The AI service is temporarily unavailable. Please try again later.'
+
+    # General Error Messages
+    ERROR_ACCESS_DENIED_VIEW: "You don't have permission to view that information."
+    ERROR_ACCESS_DENIED_EDIT: "You don't have permission to edit that information."
+    ERROR_TOOL_ERROR: 'I encountered an error while retrieving the information. Please try again.'
+    ERROR_INVALID_DATE: 'The date format is invalid. Please use a valid date.'
+    ERROR_STAGING_NOT_FOUND: 'The staging preview was not found. It may have expired.'
+    ERROR_STAGING_EXPIRED: 'The staging preview has expired. Please create a new request.'
+    ERROR_GENERIC: 'An error occurred.'
+    ERROR_PERMISSION_DENIED: 'Permission denied.'
+    ERROR_CANNOT_VIEW: 'You do not have permission to view this record.'
+    ERROR_CANNOT_EDIT: 'You do not have permission to edit this record.'
+    ERROR_CANNOT_CREATE: 'You do not have permission to create new records.'
+    ERROR_CANNOT_ACCESS_STAGING: 'You do not have permission to access this staging preview.'
+    ERROR_INVALID_REQUEST: 'Invalid request format.'
+
+    # Actions
+    CHANGES_CANCELLED: 'Changes cancelled.'
+
+    # Staging Preview Messages
+    STAGING_TITLE: 'Preview Changes'
+    STAGING_CONFIRM: 'Confirm'
+    STAGING_CANCEL: 'Cancel'
+    STAGING_WILL_CREATE: 'The following changes will be made:'
+    STAGING_CONFIRMED: 'Changes have been saved successfully.'
+    STAGING_CANCELLED: 'Changes cancelled.'
+    STAGING_EXPIRES_IN: 'This preview expires in {minutes} minutes.'
+
+    # Agent Response Messages
+    RESPONSE_NO_RESULTS: 'No results found.'
+    RESPONSE_SEARCH_RESULTS: 'Search results for "{query}":'
+    RESPONSE_NO_SEARCH_RESULTS: 'No records found matching "{query}".'
+
+    # Batch/Update Messages
+    BATCH_CREATE_SUCCESS: 'Successfully created {count} new records.'
+    BATCH_CREATE_FAILED: 'Failed to create records. Please try again.'
+    UPDATE_SUCCESS: 'Successfully updated {name}.'
+    UPDATE_FAILED: 'Failed to update {name}. Please try again.'

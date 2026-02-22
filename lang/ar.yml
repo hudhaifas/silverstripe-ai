@@ -1,0 +1,57 @@
+ar:
+  AgentWidget:
+    TITLE: 'المساعد الذكي'
+    TITLE_EXPANDED: 'المساعد — {name}'
+    PLACEHOLDER: 'اطرح سؤالاً...'
+    SEND: 'إرسال'
+    EXPAND: 'توسيع'
+    EMPTY_STATE: 'اسألني عن {name}.'
+
+  AgentService:
+    # HTTP Error Messages
+    ERROR_BAD_REQUEST: 'طلب غير صالح. يرجى التحقق من المدخلات والمحاولة مرة أخرى.'
+    ERROR_UNAUTHORIZED: 'يتطلب تسجيل الدخول. يرجى تسجيل الدخول للمتابعة.'
+    ERROR_CREDIT_LIMIT: 'تم تجاوز حد الرصيد. يرجى شراء المزيد من الرصيد للمتابعة.'
+    ERROR_FORBIDDEN: 'ليس لديك صلاحية للقيام بهذا الإجراء.'
+    ERROR_NOT_FOUND: 'لم يتم العثور على المورد المطلوب.'
+    ERROR_GONE: 'انتهت صلاحية هذا المورد. يرجى إنشاء طلب جديد.'
+    ERROR_INTERNAL: 'حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.'
+    ERROR_SERVICE_UNAVAILABLE: 'خدمة الذكاء الاصطناعي غير متاحة مؤقتاً. يرجى المحاولة لاحقاً.'
+
+    # General Error Messages
+    ERROR_ACCESS_DENIED_VIEW: 'ليس لديك صلاحية لعرض هذه المعلومات.'
+    ERROR_ACCESS_DENIED_EDIT: 'ليس لديك صلاحية لتعديل هذه المعلومات.'
+    ERROR_TOOL_ERROR: 'واجهت خطأ أثناء استرداد المعلومات. يرجى المحاولة مرة أخرى.'
+    ERROR_INVALID_DATE: 'صيغة التاريخ غير صالحة. يرجى استخدام تاريخ صالح.'
+    ERROR_STAGING_NOT_FOUND: 'لم يتم العثور على المعاينة. ربما انتهت صلاحيتها.'
+    ERROR_STAGING_EXPIRED: 'انتهت صلاحية المعاينة. يرجى إنشاء طلب جديد.'
+    ERROR_GENERIC: 'حدث خطأ.'
+    ERROR_PERMISSION_DENIED: 'تم رفض الإذن.'
+    ERROR_CANNOT_VIEW: 'ليس لديك صلاحية لعرض هذا السجل.'
+    ERROR_CANNOT_EDIT: 'ليس لديك صلاحية لتعديل هذا السجل.'
+    ERROR_CANNOT_CREATE: 'ليس لديك صلاحية لإنشاء سجلات جديدة.'
+    ERROR_CANNOT_ACCESS_STAGING: 'ليس لديك صلاحية للوصول إلى هذه المعاينة.'
+    ERROR_INVALID_REQUEST: 'صيغة الطلب غير صالحة.'
+
+    # Actions
+    CHANGES_CANCELLED: 'تم إلغاء التغييرات.'
+
+    # Staging Preview Messages
+    STAGING_TITLE: 'معاينة التغييرات'
+    STAGING_CONFIRM: 'تأكيد'
+    STAGING_CANCEL: 'إلغاء'
+    STAGING_WILL_CREATE: 'سيتم إجراء التغييرات التالية:'
+    STAGING_CONFIRMED: 'تم حفظ التغييرات بنجاح.'
+    STAGING_CANCELLED: 'تم إلغاء التغييرات.'
+    STAGING_EXPIRES_IN: 'تنتهي صلاحية هذه المعاينة خلال {minutes} دقيقة.'
+
+    # Agent Response Messages
+    RESPONSE_NO_RESULTS: 'لم يتم العثور على نتائج.'
+    RESPONSE_SEARCH_RESULTS: 'نتائج البحث عن "{query}":'
+    RESPONSE_NO_SEARCH_RESULTS: 'لم يتم العثور على سجلات مطابقة لـ "{query}".'
+
+    # Batch/Update Messages
+    BATCH_CREATE_SUCCESS: 'تم إنشاء {count} سجل جديد بنجاح.'
+    BATCH_CREATE_FAILED: 'فشل في إنشاء السجلات. يرجى المحاولة مرة أخرى.'
+    UPDATE_SUCCESS: 'تم تحديث {name} بنجاح.'
+    UPDATE_FAILED: 'فشل في تحديث {name}. يرجى المحاولة مرة أخرى.'

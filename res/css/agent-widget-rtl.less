@@ -1,0 +1,45 @@
+/**
+ * Agent Sidebar RTL Overrides
+ * 
+ * RTL-specific styles for the agent chat widget.
+ * This file is conditionally loaded when the page is in RTL mode.
+ */
+
+// =============================================================================
+// AI Brand Colors (consistent with agent-widget.less)
+// =============================================================================
+
+@ai-primary: #c218f4;
+@ai-secondary: #ff6b00;
+@ai-primary-bg: rgba(194, 24, 244, 0.08);
+
+// =============================================================================
+// RTL Overrides
+// =============================================================================
+
+.agent-widget__input textarea {
+    text-align: right;
+}
+
+.agent-widget__context {
+    margin-left: 0;
+    margin-right: 0.5rem;
+}
+
+// =============================================================================
+// Interrupt Card RTL
+// =============================================================================
+
+// Flip the approve/reject button row so Approve appears on the left in RTL
+.agent-interrupt__buttons {
+    flex-direction: row-reverse;
+}
+
+// =============================================================================
+// Expanded State RTL
+// =============================================================================
+
+.agent-widget.agent-widget--expanded .agent-widget__context {
+    margin-left: 0 !important;
+    margin-right: 0.5rem !important;
+}

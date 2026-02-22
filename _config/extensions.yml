@@ -1,0 +1,31 @@
+---
+Name: app-ai-extensions
+---
+
+SilverStripe\Security\Member:
+  extensions:
+    - Hudhaifas\AI\Extension\MemberAIExtension
+
+SilverStripe\SiteConfig\SiteConfig:
+  extensions:
+    - Hudhaifas\AI\Extension\SiteConfigAIExtension
+
+---
+Name: app-ai-services
+---
+
+SilverStripe\Core\Injector\Injector:
+  # Default cache pool for agent history and workflow persistence.
+  # Uses SS's built-in filesystem/APCu cache — no Redis required.
+  # To use Redis, override this binding in your app's YAML config.
+  AgentCache:
+    factory: SilverStripe\Core\Cache\CacheFactory
+    constructor:
+      namespace: 'AgentCache'
+      defaultLifetime: 3600
+
+  NeuronAI\Chat\History\ChatHistoryInterface:
+    class: Hudhaifas\AI\Chat\SilverStripeCacheHistory
+
+  NeuronAI\Workflow\Persistence\PersistenceInterface:
+    class: Hudhaifas\AI\Workflow\SilverStripeCachePersistence

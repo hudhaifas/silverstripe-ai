@@ -1,0 +1,20 @@
+/**
+ * Agent Sidebar RTL Overrides
+ * 
+ * RTL-specific styles for the agent chat widget.
+ * This file is conditionally loaded when the page is in RTL mode.
+ */
+.agent-widget__input textarea {
+  text-align: right;
+}
+.agent-widget__context {
+  margin-left: 0;
+  margin-right: 0.5rem;
+}
+.agent-interrupt__buttons {
+  flex-direction: row-reverse;
+}
+.agent-widget.agent-widget--expanded .agent-widget__context {
+  margin-left: 0 !important;
+  margin-right: 0.5rem !important;
+}

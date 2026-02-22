@@ -1,0 +1,7 @@
+---
+Name: app-ai-routes
+After: '#rootroutes'
+---
+SilverStripe\Control\Director:
+  rules:
+    'api/agent//$Action': 'Hudhaifas\AI\Controller\AgentController'
