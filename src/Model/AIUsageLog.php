@@ -2,10 +2,8 @@
 
 namespace Hudhaifas\AI\Model;
 
-use Exception;
 use NeuronAI\Chat\Messages\Usage;
 use SilverStripe\ORM\DataObject;
-use SilverStripe\ORM\DB;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Permission;
 use SilverStripe\Security\Security;
@@ -172,19 +170,6 @@ class AIUsageLog extends DataObject {
     }
 
     public function requireDefaultRecords(): void {
-        // Migrate old ClassName values BEFORE any ORM hydration touches these rows.
-        $oldClass = 'AmLineage\\AIContent\\Model\\AIUsageLog';
-        $newClass = static::class;
-        try {
-            $count = DB::query("SELECT COUNT(*) FROM AIUsageLog WHERE ClassName = '{$oldClass}'")->value();
-            if ($count > 0) {
-                DB::query("UPDATE AIUsageLog SET ClassName = '{$newClass}' WHERE ClassName = '{$oldClass}'");
-                DB::alteration_message("Migrated {$count} AIUsageLog rows from old namespace", 'changed');
-            }
-        } catch (Exception $e) {
-            // Table may not exist yet on first run — safe to ignore
-        }
-
         parent::requireDefaultRecords();
     }
 }

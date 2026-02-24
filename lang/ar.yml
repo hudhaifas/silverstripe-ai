@@ -6,6 +6,10 @@ ar:
     SEND: 'إرسال'
     EXPAND: 'توسيع'
     EMPTY_STATE: 'اسألني عن {name}.'
+    CANCEL: 'إلغاء'
+    CONFIRM: 'تأكيد'
+    ERROR: 'حدث خطأ ما. يرجى المحاولة مرة أخرى.'
+    LOGIN_REQUIRED: 'يرجى تسجيل الدخول لاستخدام المساعد الذكي.'
 
   AgentService:
     # HTTP Error Messages
@@ -55,3 +59,11 @@ ar:
     BATCH_CREATE_FAILED: 'فشل في إنشاء السجلات. يرجى المحاولة مرة أخرى.'
     UPDATE_SUCCESS: 'تم تحديث {name} بنجاح.'
     UPDATE_FAILED: 'فشل في تحديث {name}. يرجى المحاولة مرة أخرى.'
+
+  ContentWidget:
+    GENERATE_CONTENT: "إنشاء باستخدام AI"
+    LOADING: "جاري الإنشاء... يرجى الانتظار."
+    HINT: "سيتم توليد المحتوى بناءً على البيانات المتاحة. الرجاء مراجعته وتحريره قبل الحفظ."
+    PLACEHOLDER: "اكتب أو أنشئ محتوى..."
+    AI_DISCLAIMER: "تم إنشاء هذا المحتوى باستخدام الذكاء الاصطناعي"
+    WIDGET_TITLE: "محتوى AI"

@@ -1,0 +1,192 @@
+/**
+ * AI Content Styles
+ *
+ * Styles for AI-powered content generation features.
+ * Uses AI brand colors (purple/orange gradient) — consistent with agent-widget.less.
+ */
+
+@import "ai-variables.less";
+
+// ── Content Widget Container ──────────────────────────────────────────────────
+
+[data-role="content-widget-root"] {
+  border: 1px solid #d9d9d9;
+  border-radius: 8px;
+  background: #f5f5f5;
+  overflow: hidden;
+  position: relative;
+
+  // AI gradient top border accent (matches agent-widget)
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: @ai-gradient;
+    border-radius: 8px 8px 0 0;
+    z-index: 1;
+  }
+
+  &.ai-loading {
+    @keyframes borderAnimation {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+    animation: borderAnimation 2s ease infinite;
+  }
+
+  // Borderless variant — no card chrome, transparent background, no padding
+  &.content-widget--borderless {
+    border: none;
+    background: transparent;
+    overflow: visible;
+
+    &::before {
+      display: none;
+    }
+
+    [data-role="content-widget-display"],
+    [data-role="content-widget-edit-form"] {
+      padding: 0;
+    }
+  }
+}
+
+// ── Content display (view mode) ───────────────────────────────────────────────
+
+[data-role="content-widget-display"],
+[data-role="content-widget-edit-form"] {
+  padding: 1rem;
+}
+
+[data-role="content-widget-display"] {
+  border: none;
+  line-height: 1.8;
+}
+
+[data-role="content-widget-display"] p {
+  margin-bottom: 0.75rem;
+}
+
+[data-role="content-widget-display"] p:last-child {
+  margin-bottom: 0;
+}
+
+// ── Loading indicator ─────────────────────────────────────────────────────────
+
+[data-role="ai-loading"] {
+  background: @ai-primary-bg;
+  border: 1px solid rgba(194, 24, 244, 0.3);
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin-bottom: 0.75rem;
+  color: @ai-primary;
+  font-weight: 500;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+// ── Textarea ──────────────────────────────────────────────────────────────────
+
+.content-widget-textarea {
+  min-height: 200px;
+  border-radius: 4px !important;
+
+  &:focus {
+    border-color: @ai-primary;
+    box-shadow: 0 0 0 2px fade(@ai-primary, 15%);
+    outline: none;
+  }
+}
+
+// ── AI Generate Button ────────────────────────────────────────────────────────
+
+.btn-ai-generate {
+  background: @ai-gradient !important;
+  border: none !important;
+  color: #fff !important;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+
+  &:hover:not(:disabled) {
+    opacity: 0.9;
+    transform: scale(1.02);
+    color: #fff !important;
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .genai-icon svg {
+    fill: #fff !important;
+  }
+}
+
+#generate-content {
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.05);
+  padding-inline: 0.75rem;
+}
+
+// ── AI Generated Badge / Disclaimer ──────────────────────────────────────────
+
+.ai-generated-badge {
+  color: @ai-primary !important;
+  font-weight: bold !important;
+
+  .genai-icon svg {
+    fill: @ai-primary !important;
+  }
+}
+
+// ── Hint text ─────────────────────────────────────────────────────────────────
+
+.ai-hint {
+  color: @ai-primary !important;
+  font-weight: bold !important;
+
+  .genai-icon svg {
+    fill: @ai-primary !important;
+  }
+}
+
+// ── AI Content tab pill ───────────────────────────────────────────────────────
+
+.nav-pills .nav-link[data-tab="ai_content"] {
+  background: @ai-gradient;
+  color: #fff !important;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 0 6px rgba(194, 24, 244, 0.6);
+  }
+
+  &.active {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
+    z-index: 2;
+  }
+
+  &:not(.active) {
+    opacity: 0.8;
+    filter: saturate(0.7) brightness(0.95);
+  }
+
+  svg {
+    fill: #fff;
+  }
+}

@@ -1,37 +1,47 @@
 {
-    "name": "hudhaifas/silverstripe-ai",
-    "description": "Context-aware AI agent for SilverStripe 5 — NeuronAI integration, Human-in-the-Loop, usage tracking, and multi-provider support",
-    "type": "silverstripe-vendormodule",
-    "keywords": ["silverstripe", "ai", "neuronai", "agent", "chatbot", "openai", "anthropic", "llm", "human-in-the-loop"],
-    "license": "BSD-3-Clause",
-    "authors": [
-        {
-            "name": "Hudhaifa Shatnawi",
-            "homepage": "https://github.com/hudhaifas",
-            "role": "Developer"
-        }
-    ],
-    "homepage": "https://github.com/hudhaifas/silverstripe-ai",
-    "support": {
-        "issues": "https://github.com/hudhaifas/silverstripe-ai/issues",
-        "source": "https://github.com/hudhaifas/silverstripe-ai"
-    },
-    "require": {
-        "php": ">=8.1",
-        "silverstripe/framework": "^5.0",
-        "neuron-core/neuron-ai": "^3.0"
-    },
-    "suggest": {
-        "hudhaifas/silverstripe-cache-helpers": "Required for the optional Redis storage backend (RedisChatHistory and RedisPersistence)"
-    },
-    "autoload": {
-        "psr-4": {
-            "Hudhaifas\\AI\\": "src/"
-        }
-    },
-    "extra": {
-        "expose": [
-            "res"
-        ]
+  "name": "hudhaifas/silverstripe-ai",
+  "description": "Context-aware AI agent for SilverStripe 5 — NeuronAI integration, Human-in-the-Loop, usage tracking, and multi-provider support",
+  "type": "silverstripe-vendormodule",
+  "keywords": [
+    "silverstripe",
+    "ai",
+    "neuronai",
+    "agent",
+    "chatbot",
+    "openai",
+    "anthropic",
+    "llm",
+    "human-in-the-loop"
+  ],
+  "license": "BSD-3-Clause",
+  "authors": [
+    {
+      "name": "Hudhaifa Shatnawi",
+      "homepage": "https://github.com/hudhaifas",
+      "role": "Developer"
     }
+  ],
+  "homepage": "https://github.com/hudhaifas/silverstripe-ai",
+  "support": {
+    "issues": "https://github.com/hudhaifas/silverstripe-ai/issues",
+    "source": "https://github.com/hudhaifas/silverstripe-ai"
+  },
+  "require": {
+    "php": ">=8.1",
+    "silverstripe/framework": "^5.0",
+    "neuron-core/neuron-ai": "^3.0"
+  },
+  "suggest": {
+    "hudhaifas/silverstripe-cache-helpers": "Required for the optional Redis storage backend (RedisChatHistory and RedisPersistence)"
+  },
+  "autoload": {
+    "psr-4": {
+      "Hudhaifas\\AI\\": "src/"
+    }
+  },
+  "extra": {
+    "expose": [
+      "res"
+    ]
+  }
 }

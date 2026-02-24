@@ -1,9 +1,0 @@
----
-Name: app-ai-migration
----
-SilverStripe\ORM\DatabaseAdmin:
-  classname_value_remapping:
-    'AmLineage\AIContent\Model\AIModel': 'Hudhaifas\AI\Model\AIModel'
-    'AmLineage\AIContent\Model\AIUsageLog': 'Hudhaifas\AI\Model\AIUsageLog'
-    'AmLineage\AI\Model\AIModel': 'Hudhaifas\AI\Model\AIModel'
-    'AmLineage\AI\Model\AIUsageLog': 'Hudhaifas\AI\Model\AIUsageLog'

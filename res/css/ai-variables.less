@@ -1,0 +1,48 @@
+/**
+ * AI Brand Variables
+ *
+ * Shared color variables for AI widgets.
+ * Consistent with app-react/client/src/styles/ai-colors.ts
+ */
+
+// Brand Colors
+@ai-primary: #c218f4;
+@ai-secondary: #ff6b00;
+@ai-primary-bg: rgba(194, 24, 244, 0.08);
+@ai-primary-hover: darken(@ai-primary, 10%);
+@ai-primary-active: darken(@ai-primary, 15%);
+@ai-gradient: linear-gradient(90deg, @ai-primary 0%, @ai-secondary 100%);
+
+// GenAI Icon
+.genai-icon {
+  display: inline-flex;
+  align-items: center;
+
+  svg {
+    display: inline-block;
+    vertical-align: middle;
+    fill: @ai-primary;
+    width: 1em;
+    height: 1em;
+  }
+
+  &--loading {
+    animation: genai-icon-pulse 1.5s ease-in-out infinite;
+  }
+
+  &--lg svg {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+@keyframes genai-icon-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
+}

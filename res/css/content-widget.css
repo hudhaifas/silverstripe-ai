@@ -1,0 +1,212 @@
+/**
+ * AI Content Styles
+ *
+ * Styles for AI-powered content generation features.
+ * Uses AI brand colors (purple/orange gradient) — consistent with agent-widget.less.
+ */
+/**
+ * AI Brand Variables
+ *
+ * Shared color variables for AI widgets.
+ * Consistent with app-react/client/src/styles/ai-colors.ts
+ */
+.genai-icon {
+    display: inline-flex;
+    align-items: center;
+}
+
+.genai-icon svg {
+    display: inline-block;
+    vertical-align: middle;
+    fill: #c218f4;
+    width: 1em;
+    height: 1em;
+}
+
+.genai-icon--loading {
+    animation: genai-icon-pulse 1.5s ease-in-out infinite;
+}
+
+.genai-icon--lg svg {
+    width: 48px;
+    height: 48px;
+}
+
+@keyframes genai-icon-pulse {
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.6;
+        transform: scale(1.1);
+    }
+}
+
+[data-role="content-widget-root"] {
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+    background: #f5f5f5;
+    overflow: hidden;
+    position: relative;
+}
+
+[data-role="content-widget-root"]::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #c218f4 0%, #ff6b00 100%);
+    border-radius: 8px 8px 0 0;
+    z-index: 1;
+}
+
+[data-role="content-widget-root"].ai-loading {
+    animation: borderAnimation 2s ease infinite;
+}
+
+@keyframes borderAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+[data-role="content-widget-root"].content-widget--borderless {
+    border: none;
+    background: transparent;
+    overflow: visible;
+}
+
+[data-role="content-widget-root"].content-widget--borderless::before {
+    display: none;
+}
+
+[data-role="content-widget-root"].content-widget--borderless [data-role="content-widget-display"],
+[data-role="content-widget-root"].content-widget--borderless [data-role="content-widget-edit-form"] {
+    padding: 0;
+}
+
+[data-role="content-widget-display"],
+[data-role="content-widget-edit-form"] {
+    padding: 1rem;
+}
+
+[data-role="content-widget-display"] {
+    border: none;
+    line-height: 1.8;
+}
+
+[data-role="content-widget-display"] p {
+    margin-bottom: 0.75rem;
+}
+
+[data-role="content-widget-display"] p:last-child {
+    margin-bottom: 0;
+}
+
+[data-role="ai-loading"] {
+    background: rgba(194, 24, 244, 0.08);
+    border: 1px solid rgba(194, 24, 244, 0.3);
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin-bottom: 0.75rem;
+    color: #c218f4;
+    font-weight: 500;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.content-widget-textarea {
+    min-height: 200px;
+    border-radius: 4px !important;
+}
+
+.content-widget-textarea:focus {
+    border-color: #c218f4;
+    box-shadow: 0 0 0 2px rgba(194, 24, 244, 0.15);
+    outline: none;
+}
+
+.btn-ai-generate {
+    background: linear-gradient(90deg, #c218f4 0%, #ff6b00 100%) !important;
+    border: none !important;
+    color: #fff !important;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.btn-ai-generate:hover:not(:disabled) {
+    opacity: 0.9;
+    transform: scale(1.02);
+    color: #fff !important;
+}
+
+.btn-ai-generate:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+.btn-ai-generate:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-ai-generate .genai-icon svg {
+    fill: #fff !important;
+}
+
+#generate-content {
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.05);
+    padding-inline: 0.75rem;
+}
+
+.ai-generated-badge {
+    color: #c218f4 !important;
+    font-weight: bold !important;
+}
+
+.ai-generated-badge .genai-icon svg {
+    fill: #c218f4 !important;
+}
+
+.ai-hint {
+    color: #c218f4 !important;
+    font-weight: bold !important;
+}
+
+.ai-hint .genai-icon svg {
+    fill: #c218f4 !important;
+}
+
+.nav-pills .nav-link[data-tab="ai_content"] {
+    background: linear-gradient(90deg, #c218f4 0%, #ff6b00 100%);
+    color: #fff !important;
+    transition: all 0.3s ease;
+}
+
+.nav-pills .nav-link[data-tab="ai_content"]:hover {
+    box-shadow: 0 0 6px rgba(194, 24, 244, 0.6);
+}
+
+.nav-pills .nav-link[data-tab="ai_content"].active {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
+    z-index: 2;
+}
+
+.nav-pills .nav-link[data-tab="ai_content"]:not(.active) {
+    opacity: 0.8;
+    filter: saturate(0.7) brightness(0.95);
+}
+
+.nav-pills .nav-link[data-tab="ai_content"] svg {
+    fill: #fff;
+}

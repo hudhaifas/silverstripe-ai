@@ -6,6 +6,10 @@ en:
     SEND: 'Send'
     EXPAND: 'Expand'
     EMPTY_STATE: 'Ask me about {name}.'
+    CANCEL: 'Cancel'
+    CONFIRM: 'Confirm'
+    ERROR: 'Something went wrong. Please try again.'
+    LOGIN_REQUIRED: 'Please log in to use the AI assistant.'
 
   AgentService:
     # HTTP Error Messages
@@ -55,3 +59,11 @@ en:
     BATCH_CREATE_FAILED: 'Failed to create records. Please try again.'
     UPDATE_SUCCESS: 'Successfully updated {name}.'
     UPDATE_FAILED: 'Failed to update {name}. Please try again.'
+
+  ContentWidget:
+    GENERATE_CONTENT: 'Generate using AI'
+    LOADING: 'Generating... Please wait.'
+    HINT: 'Content will be generated based on available data. Please review and edit before saving.'
+    PLACEHOLDER: 'Write or generate content...'
+    AI_DISCLAIMER: 'This content was generated using AI'
+    WIDGET_TITLE: 'AI Content'
