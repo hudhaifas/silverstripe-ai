@@ -30,8 +30,8 @@ class ContentController extends BaseAPIController {
         try {
             $member = $this->requireMember();
             $entity = $this->resolveEntity(
-                $request->postVar('class') ?? '',
-                (int)$request->postVar('id'),
+                $request->postVar('entity_class') ?? '',
+                (int)$request->postVar('entity_id'),
                 $member,
                 'edit'
             );
@@ -53,8 +53,8 @@ class ContentController extends BaseAPIController {
         try {
             $member = $this->requireMember();
             $entity = $this->resolveEntity(
-                $request->postVar('class') ?? '',
-                (int)$request->postVar('id'),
+                $request->postVar('entity_class') ?? '',
+                (int)$request->postVar('entity_id'),
                 $member,
                 'edit'
             );
@@ -89,8 +89,8 @@ class ContentController extends BaseAPIController {
         try {
             $member = $this->requireMember();
             $entity = $this->resolveEntity(
-                $request->postVar('class') ?? '',
-                (int)$request->postVar('id'),
+                $request->postVar('entity_class') ?? '',
+                (int)$request->postVar('entity_id'),
                 $member,
                 'edit'
             );

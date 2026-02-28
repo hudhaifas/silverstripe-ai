@@ -2,7 +2,7 @@
 
 namespace Hudhaifas\AI\Extension;
 
-use Hudhaifas\AI\Model\AIModel;
+use Hudhaifas\AI\Model\AIChatModel;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\ORM\DataExtension;
@@ -16,8 +16,8 @@ use SilverStripe\ORM\DataExtension;
  */
 class SiteConfigAIExtension extends DataExtension {
     private static $has_one = [
-        'DefaultFreeAIModel' => AIModel::class,
-        'DefaultPaidAIModel' => AIModel::class,
+        'DefaultFreeAIModel' => AIChatModel::class,
+        'DefaultPaidAIModel' => AIChatModel::class,
     ];
 
     public function updateCMSFields(FieldList $fields): void {
@@ -25,13 +25,13 @@ class SiteConfigAIExtension extends DataExtension {
             DropdownField::create(
                 'DefaultFreeAIModelID',
                 'Default Free Tier Model',
-                AIModel::get()->filter(['Active' => true, 'AllowedForFreeCredits' => true])->map('ID', 'Title')
+                AIChatModel::get()->filter(['Active' => true, 'AllowedForFreeCredits' => true])->map('ID', 'Title')
             )->setDescription('Model used when member has only free credits')->setEmptyString('-- Select Model --'),
 
             DropdownField::create(
                 'DefaultPaidAIModelID',
                 'Default Paid Tier Model',
-                AIModel::get()->filter(['Active' => true])->map('ID', 'Title')
+                AIChatModel::get()->filter(['Active' => true])->map('ID', 'Title')
             )->setDescription('Model used when member has purchased credits')->setEmptyString('-- Select Model --'),
         ]);
     }

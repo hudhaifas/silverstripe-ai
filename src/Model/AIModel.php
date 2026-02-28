@@ -18,16 +18,8 @@ class AIModel extends DataObject {
         'OutputCostPer1M' => 'Decimal(10,2)',
         'CacheWriteCostPer1M' => 'Decimal(10,6)',  // Cache creation/setup (~25% premium)
         'CacheReadCostPer1M' => 'Decimal(10,6)',   // Cache hits (~90% discount)
-        'IsDefaultGenerate' => 'Boolean',
-        'IsDefaultRevise' => 'Boolean',
         'Active' => 'Boolean',
         'Provider' => 'Varchar(50)',
-        'ContextWindow' => 'Int',
-        'MaxOutputTokens' => 'Int',
-        'SupportsTools' => 'Boolean',
-        'PerformanceTier' => 'Enum("fast,balanced,quality","balanced")',
-        'AllowedForFreeCredits' => 'Boolean',
-        'AllowedForPurchasedCredits' => 'Boolean'
     ];
     private static $has_many = [
         'UsageLogs' => AIUsageLog::class
@@ -35,12 +27,6 @@ class AIModel extends DataObject {
     private static $defaults = [
         'Active' => true,
         'Provider' => 'OpenAI',
-        'ContextWindow' => 128000,
-        'MaxOutputTokens' => 4096,
-        'SupportsTools' => true,
-        'PerformanceTier' => 'balanced',
-        'AllowedForFreeCredits' => true,
-        'AllowedForPurchasedCredits' => true
     ];
     private static $summary_fields = [
         'DisplayName',
@@ -49,8 +35,6 @@ class AIModel extends DataObject {
         'FormattedInputCost' => 'Input Cost',
         'FormattedOutputCost' => 'Output Cost',
         'FormattedAverageCost' => 'Avg Cost',
-        'IsDefaultGenerate',
-        'IsDefaultRevise',
         'Active'
     ];
     private static $default_sort = '(InputCostPer1M + OutputCostPer1M) ASC';
@@ -101,8 +85,6 @@ class AIModel extends DataObject {
         $fields = parent::getCMSFields();
 
         // Model Configuration
-        $fields->addFieldToTab('Root.Main', CheckboxField::create('IsDefaultGenerate', 'Default Generate Model'));
-        $fields->addFieldToTab('Root.Main', CheckboxField::create('IsDefaultRevise', 'Default Revise Model'));
 
         // Provider dropdown with available providers
         $providerField = $fields->dataFieldByName('Provider');
@@ -121,45 +103,7 @@ class AIModel extends DataObject {
             );
         }
 
-        // Capabilities
-        $fields->addFieldToTab('Root.Capabilities',
-            NumericField::create('ContextWindow', 'Context Window (tokens)')
-                ->setDescription('Maximum context window size in tokens')
-        );
-        $fields->addFieldToTab('Root.Capabilities',
-            NumericField::create('MaxOutputTokens', 'Max Output Tokens')
-                ->setDescription('Maximum output tokens per request')
-        );
-        $fields->addFieldToTab('Root.Capabilities',
-            CheckboxField::create('SupportsTools', 'Supports Tools')
-                ->setDescription('Whether this model supports function calling/tools')
-        );
-        $fields->addFieldToTab('Root.Capabilities',
-            DropdownField::create('PerformanceTier', 'Performance Tier', [
-                'fast' => 'Fast',
-                'balanced' => 'Balanced',
-                'quality' => 'Quality'
-            ])
-        );
-
-        // Credit Policy
-        $fields->addFieldToTab('Root.CreditPolicy',
-            CheckboxField::create('AllowedForFreeCredits', 'Allowed for Free Credits')
-                ->setDescription('Can this model be used with free monthly credits?')
-        );
-        $fields->addFieldToTab('Root.CreditPolicy',
-            CheckboxField::create('AllowedForPurchasedCredits', 'Allowed for Purchased Credits')
-                ->setDescription('Can this model be used with purchased credits?')
-        );
-
-        // Add Usage Statistics tab with charts (only for existing records)
-        if ($this->exists()) {
-            $usageData = $this->getDailyUsageData(30);
-
-            $fields->addFieldToTab('Root.UsageStatistics',
-                LiteralField::create('UsageCharts', $this->renderUsageCharts($usageData))
-            );
-        }
+        $this->addUsageChartsTab($fields);
 
         return $fields;
     }
@@ -170,6 +114,14 @@ class AIModel extends DataObject {
      * @param int $days Number of days to retrieve
      * @return array
      */
+    protected function addUsageChartsTab($fields): void {
+        if ($this->exists()) {
+            $fields->addFieldToTab('Root.UsageStatistics',
+                LiteralField::create('UsageCharts', $this->renderUsageCharts($this->getDailyUsageData(30)))
+            );
+        }
+    }
+
     public function getDailyUsageData(int $days = 30): array {
         $sql = "
             SELECT
@@ -218,7 +170,7 @@ class AIModel extends DataObject {
      * @param array $data
      * @return string
      */
-    private function renderUsageCharts(array $data): string {
+    protected function renderUsageCharts(array $data): string {
         $chartData = json_encode($data);
         $totalCost = number_format($this->UsageLogs()->sum('Cost'), 2);
         $totalTokens = number_format($this->UsageLogs()->sum('TotalTokens'));
@@ -467,27 +419,6 @@ class AIModel extends DataObject {
 HTML;
     }
 
-    private function clearOtherDefaults(array $fields): void {
-        foreach (self::get()->exclude('ID', $this->ID) as $model) {
-            foreach ($fields as $field) {
-                $model->$field = 0;
-            }
-            $model->write();
-        }
-    }
-
-    public function onBeforeWrite() {
-        parent::onBeforeWrite();
-
-        $fieldsToClear = [];
-        if ($this->IsDefaultGenerate) $fieldsToClear[] = 'IsDefaultGenerate';
-        if ($this->IsDefaultRevise) $fieldsToClear[] = 'IsDefaultRevise';
-
-        if ($fieldsToClear) {
-            $this->clearOtherDefaults($fieldsToClear);
-        }
-    }
-
     public function getTotalUsage(string $period = 'month'): array {
         $query = $this->UsageLogs();
 
@@ -572,38 +503,6 @@ HTML;
         return round($cost, 6);
     }
 
-    /**
-     * Get model capabilities
-     *
-     * @return array
-     */
-    public function getCapabilities(): array {
-        return [
-            'context_window' => (int)$this->ContextWindow,
-            'max_output_tokens' => (int)$this->MaxOutputTokens,
-            'supports_tools' => (bool)$this->SupportsTools,
-            'performance_tier' => $this->PerformanceTier,
-        ];
-    }
-
-    /**
-     * Check if model can be used with free credits
-     *
-     * @return bool
-     */
-    public function canUseWithFreeCredits(): bool {
-        return (bool)$this->AllowedForFreeCredits;
-    }
-
-    /**
-     * Check if model can be used with purchased credits
-     *
-     * @return bool
-     */
-    public function canUseWithPurchasedCredits(): bool {
-        return (bool)$this->AllowedForPurchasedCredits;
-    }
-
     public static function getActiveModels(): array {
         return self::get()->filter('Active', true)->map('Name', 'Title')->toArray();
     }
@@ -634,67 +533,5 @@ HTML;
             ];
         }
         return $costs;
-    }
-
-    public static function getDefaultModel(): string {
-        $model = self::get()->filter(['Active' => true, 'IsDefaultGenerate' => true])->first();
-        return $model ? $model->Name : 'gpt-4o-mini';
-    }
-
-    public static function getDefaultReviseModel(): string {
-        $model = self::get()->filter(['Active' => true, 'IsDefaultRevise' => true])->first();
-        return $model ? $model->Name : 'gpt-4o';
-    }
-
-    /**
-     * Seed starter model records on dev/build.
-     *
-     * These are example entries only — pricing changes frequently.
-     * Always verify current pricing at:
-     *   - OpenAI:    https://openai.com/api/pricing/
-     *   - Anthropic: https://docs.anthropic.com/en/docs/about-claude/models
-     *
-     * Override this method in a subclass or DataExtension to seed your own models,
-     * or manage models entirely through the CMS (Settings → AI Models).
-     *
-     * Column order: name, displayName, inputCost, outputCost, cacheWriteCost, cacheReadCost,
-     *               isDefaultGenerate, isDefaultRevise, provider, contextWindow, maxOutputTokens, supportsTools
-     */
-    public function requireDefaultRecords() {
-        parent::requireDefaultRecords();
-
-        $models = [
-            // OpenAI — no prompt caching, so cache rates are 0
-            // Pricing: https://openai.com/api/pricing/
-            ['gpt-4o-mini', 'GPT-4o Mini', 0.15, 0.60, 0, 0, true, false, 'OpenAI', 128000, 4096, true],
-            ['gpt-4o', 'GPT-4o', 2.50, 10.0, 0, 0, false, true, 'OpenAI', 128000, 4096, true],
-
-            // Anthropic — cache write = 25% premium, cache read = 90% discount
-            // Pricing: https://docs.anthropic.com/en/docs/about-claude/models
-            ['claude-haiku-4-5-20251001', 'Claude Haiku 4.5', 1.0, 5.0, 1.25, 0.10, false, false, 'Anthropic', 200000, 8192, true],
-            ['claude-sonnet-4-5-20250929', 'Claude Sonnet 4.5', 3.0, 15.0, 3.75, 0.30, false, false, 'Anthropic', 200000, 8192, true],
-        ];
-
-        foreach ($models as [$name, $displayName, $inputCost, $outputCost, $cacheWriteCost, $cacheReadCost, $isDefaultGenerate, $isDefaultRevise, $provider, $contextWindow, $maxOutputTokens, $supportsTools]) {
-            if (self::get()->filter('Name', $name)->exists()) {
-                continue;
-            }
-
-            $model = self::create();
-            $model->Name = $name;
-            $model->DisplayName = $displayName;
-            $model->InputCostPer1M = $inputCost;
-            $model->OutputCostPer1M = $outputCost;
-            $model->CacheWriteCostPer1M = $cacheWriteCost;
-            $model->CacheReadCostPer1M = $cacheReadCost;
-            $model->IsDefaultGenerate = $isDefaultGenerate;
-            $model->IsDefaultRevise = $isDefaultRevise;
-            $model->Provider = $provider;
-            $model->ContextWindow = $contextWindow;
-            $model->MaxOutputTokens = $maxOutputTokens;
-            $model->SupportsTools = $supportsTools;
-            $model->write();
-            DB::alteration_message("Created AI Model: $displayName ($provider)", 'created');
-        }
     }
 }

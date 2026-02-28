@@ -4,6 +4,7 @@ namespace Hudhaifas\AI\Extension;
 
 use Hudhaifas\AI\Exception\CreditLimitExceededException;
 use Hudhaifas\AI\Exception\LLMServiceUnavailableException;
+use Hudhaifas\AI\Model\AIChatModel;
 use Hudhaifas\AI\Model\AIModel;
 use Hudhaifas\AI\Model\AIUsageLog;
 use InvalidArgumentException;
@@ -40,7 +41,7 @@ class MemberAIExtension extends Extension {
         'AIPurchasedCredits' => 'Decimal(10,6)',
     ];
     private static $has_one = [
-        'AIAgentModelOverride' => AIModel::class,
+        'AIAgentModelOverride' => AIChatModel::class,
     ];
     private static $defaults = [
         'AIPurchasedCredits' => 0.00,
@@ -106,7 +107,7 @@ class MemberAIExtension extends Extension {
             DropdownField::create(
                 'AIAgentModelOverrideID',
                 'Agent Model Override (Paid Tier)',
-                AIModel::get()->filter('Active', true)->map('ID', 'Title')
+                AIChatModel::get()->filter('Active', true)->map('ID', 'Title')
             )
                 ->setEmptyString('-- Use default paid model --')
                 ->setDescription('Override the default paid model for this user'),
@@ -252,7 +253,7 @@ HTML;
      *
      * @throws CreditLimitExceededException
      */
-    public function getCreditSplitForCost(AIModel $model, float $cost): array {
+    public function getCreditSplitForCost(AIChatModel $model, float $cost): array {
         if ($cost < 0) {
             throw new InvalidArgumentException('Cost cannot be negative');
         }

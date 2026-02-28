@@ -3,7 +3,7 @@
 namespace Hudhaifas\AI\Factory;
 
 use Hudhaifas\AI\Agent\DataObjectAgent;
-use Hudhaifas\AI\Model\AIModel;
+use Hudhaifas\AI\Model\AIChatModel;
 use RuntimeException;
 use SilverStripe\Core\Config\Configurable;
 use SilverStripe\ORM\DataObject;
@@ -41,17 +41,17 @@ class AgentFactory {
      * Create an agent for the given entity.
      *
      * @param Member $member Current member
-     * @param AIModel $model AI model configuration
+     * @param AIChatModel $model AI model configuration
      * @param DataObject $entity Context entity (ID=0 means collection mode)
      * @param string|null $resumeToken Token to resume an interrupted workflow
      * @return DataObjectAgent
      */
     public static function createForEntity(
-        Member     $member,
-        AIModel    $model,
-        DataObject $entity,
-        string     $threadId,
-        ?string    $resumeToken = null
+        Member      $member,
+        AIChatModel $model,
+        DataObject  $entity,
+        string      $threadId,
+        ?string     $resumeToken = null
     ): DataObjectAgent {
         $agentClass = self::getAgentClassForEntity($entity->ClassName);
         return new $agentClass($member, $model, $entity, $threadId, $resumeToken);

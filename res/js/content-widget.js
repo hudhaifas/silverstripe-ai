@@ -73,7 +73,7 @@
         resumeToken = null;
         loading(true);
         AIUtils.postForm('content/generate', {
-          id: cfg.entityId, class: cfg.entityClass, modelId: cfg.modelId || ''
+          entity_id: cfg.entityId, entity_class: cfg.entityClass, modelId: cfg.modelId || ''
         }).then(onGenerated).catch(function () {
           loading(false);
         });
@@ -87,7 +87,7 @@
         if (resumeToken) {
           AIUtils.postForm('content/resume', {
             resumeToken: resumeToken, decision: 'edit', content: content,
-            id: cfg.entityId, class: cfg.entityClass, modelId: cfg.modelId || ''
+            entity_id: cfg.entityId, entity_class: cfg.entityClass, modelId: cfg.modelId || ''
           }).then(function (d) {
             loading(false);
             if (d.error) return;
@@ -98,7 +98,7 @@
           });
         } else {
           AIUtils.postForm('content/save', {
-            id: cfg.entityId, class: cfg.entityClass, content: content
+            entity_id: cfg.entityId, entity_class: cfg.entityClass, content: content
           }).then(function (d) {
             loading(false);
             if (d.error) return;

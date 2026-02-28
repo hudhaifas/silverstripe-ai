@@ -2,7 +2,7 @@
 
 namespace Hudhaifas\AI\Agent;
 
-use Hudhaifas\AI\Model\AIModel;
+use Hudhaifas\AI\Model\AIChatModel;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\Member;
 
@@ -14,7 +14,7 @@ use SilverStripe\Security\Member;
  * No tools, no chat history — just a provider call.
  */
 class GenerateContentAgent extends DataObjectAgent {
-    public function __construct(Member $member, AIModel $model, DataObject $entity) {
+    public function __construct(Member $member, AIChatModel $model, DataObject $entity) {
         parent::__construct(
             member: $member,
             model: $model,

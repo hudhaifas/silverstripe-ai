@@ -18,7 +18,7 @@ class AIUsageLog extends DataObject {
     private static $db = [
         'IdempotencyKey' => 'Varchar(255)',
         'Model' => 'Varchar(50)',
-        'RequestType' => 'Enum("generate,revise,agent","generate")',
+        'RequestType' => 'Enum("agent,content,search","agent")',
         'PromptTokens' => 'Int',
         'CompletionTokens' => 'Int',
         'TotalTokens' => 'Int',
@@ -35,8 +35,6 @@ class AIUsageLog extends DataObject {
         'ErrorType' => 'Enum("credit_limit,api_error,validation,context_overflow,unknown","")',
         'UsedFreeCredits' => 'Decimal(10,6)',
         'UsedPaidCredits' => 'Decimal(10,6)',
-        'CircuitBreakerTriggered' => 'Boolean',
-        'MemberCharged' => 'Boolean(1)',
         'CacheWriteCostPer1MAtTime' => 'Decimal(10,2)',
         'CacheReadCostPer1MAtTime' => 'Decimal(10,2)',
     ];
@@ -80,16 +78,6 @@ class AIUsageLog extends DataObject {
 
     public function getFormattedCost(): string {
         return '$' . number_format($this->Cost, 6);
-    }
-
-    public function getCircuitBreakerStatus(): string {
-        if ($this->CircuitBreakerTriggered) {
-            return '⚠️ CB';
-        }
-        if (!$this->MemberCharged) {
-            return '🆓';
-        }
-        return '✓';
     }
 
     public function canEdit($member = null): bool {
@@ -136,12 +124,14 @@ class AIUsageLog extends DataObject {
         DataObject $contextEntity,
         ?Usage     $usageObj,
         bool       $success,
-        ?string    $errorMessage = null
+        ?string    $errorMessage = null,
+        string     $requestType = 'agent',
+        int        $promptTokens = 0
     ): array {
         $usage = [
-            'prompt_tokens' => $usageObj?->inputTokens ?? 0,
+            'prompt_tokens' => $usageObj?->inputTokens ?? $promptTokens,
             'completion_tokens' => $usageObj?->outputTokens ?? 0,
-            'total_tokens' => $usageObj?->getTotal() ?? 0,
+            'total_tokens' => $usageObj?->getTotal() ?? $promptTokens,
             'cache_write_tokens' => $usageObj?->cacheWriteTokens ?? 0,
             'cache_read_tokens' => $usageObj?->cacheReadTokens ?? 0,
         ];
@@ -151,7 +141,7 @@ class AIUsageLog extends DataObject {
         $log->ResponseTime = date('Y-m-d H:i:s');
         $log->Model = $model->Name;
         $log->AIModelID = $model->ID;
-        $log->RequestType = 'agent';
+        $log->RequestType = $requestType;
         $log->MemberID = $member->ID;
         $log->EntityID = $contextEntity->ID;
         $log->EntityClass = $contextEntity->ClassName;

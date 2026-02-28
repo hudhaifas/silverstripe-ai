@@ -3,7 +3,7 @@
 namespace Hudhaifas\AI\Workflow;
 
 use Hudhaifas\AI\Agent\GenerateContentAgent;
-use Hudhaifas\AI\Model\AIModel;
+use Hudhaifas\AI\Model\AIChatModel;
 use Hudhaifas\AI\Workflow\Events\ContentGeneratedEvent;
 use Hudhaifas\AI\Workflow\Nodes\AgentRunnerNode;
 use Hudhaifas\AI\Workflow\Nodes\PersistContentNode;
@@ -42,10 +42,10 @@ class ContentWorkflow extends Workflow {
     const STATE_SKIP_REVIEW = '__skip_review';
 
     public function __construct(
-        Member     $member,
-        AIModel    $model,
-        DataObject $entity,
-        ?string    $resumeToken = null
+        Member      $member,
+        AIChatModel $model,
+        DataObject  $entity,
+        ?string     $resumeToken = null
     ) {
         $logger = Injector::inst()->get(LoggerInterface::class);
         $logger->info('[ContentWorkflow] __construct', [
@@ -96,7 +96,7 @@ class ContentWorkflow extends Workflow {
     /**
      * @throws WorkflowException
      */
-    public static function trigger(Member $member, AIModel $model, DataObject $entity,
+    public static function trigger(Member $member, AIChatModel $model, DataObject $entity,
                                    bool   $skipReview = false): self {
         $workflow = new self($member, $model, $entity);
         $workflow->state->set(self::STATE_SKIP_REVIEW, $skipReview);
@@ -108,7 +108,7 @@ class ContentWorkflow extends Workflow {
     /**
      * @throws WorkflowException
      */
-    public static function resumeWithDecision(Member $member, AIModel $model, DataObject $entity,
+    public static function resumeWithDecision(Member $member, AIChatModel $model, DataObject $entity,
                                               string $resumeToken, ApprovalRequest $approvalRequest): self {
         $workflow = new self($member, $model, $entity, $resumeToken);
         $workflow->init($approvalRequest)->run();

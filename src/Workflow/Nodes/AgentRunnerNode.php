@@ -3,7 +3,7 @@
 namespace Hudhaifas\AI\Workflow\Nodes;
 
 use Hudhaifas\AI\Agent\DataObjectAgent;
-use Hudhaifas\AI\Model\AIModel;
+use Hudhaifas\AI\Model\AIChatModel;
 use Hudhaifas\AI\Model\AIUsageLog;
 use Hudhaifas\AI\Workflow\ContentWorkflow;
 use NeuronAI\Chat\Messages\UserMessage;
@@ -52,7 +52,7 @@ class AgentRunnerNode extends Node {
         $member = Member::get()->byID($state->get(ContentWorkflow::STATE_MEMBER_ID));
         $entityClass = $state->get(ContentWorkflow::STATE_ENTITY_CLASS);
         $entity = $entityClass::get()->byID($state->get(ContentWorkflow::STATE_ENTITY_ID));
-        $model = AIModel::get()->byID($state->get(ContentWorkflow::STATE_MODEL_ID));
+        $model = AIChatModel::get()->byID($state->get(ContentWorkflow::STATE_MODEL_ID));
 
         $agentClassName = $this->agentClass;
         $logger->info('[AgentRunnerNode] running', [
